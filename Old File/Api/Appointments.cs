@@ -14,15 +14,15 @@ namespace AppointmentManagmentApi.Api
                 db = _db;
             }
 
-            [HttpGet]
-            [Route("GetAppointmentsol")]
+            //[HttpGet]
+            //[Route("GetAppointmentsol")]
             public async Task<IEnumerable<Appointment>> GetDoctor()
             {
                 return await db.Appointments.ToListAsync();
             }
 
-            [HttpPost]
-            [Route("AddNewAppointments")]
+            //[HttpPost]
+            //[Route("AddNewAppointments")]
             public async Task<Appointment> AddDoctors(Appointment obj)
             {
                 db.Appointments.Add(obj);
@@ -30,8 +30,8 @@ namespace AppointmentManagmentApi.Api
                 return obj;
             }
 
-            [HttpPatch]
-            [Route("UpdateAppointments")]
+            //[HttpPatch]
+            //[Route("UpdateAppointments")]
             public async Task<Doctor> UpdateAppointments(Doctor obj)
             {
                 db.Entry(obj).State = EntityState.Modified;
@@ -39,8 +39,8 @@ namespace AppointmentManagmentApi.Api
                 return obj;
             }
 
-            [HttpDelete]
-            [Route("DeleteAppointmentsById/{id}")]
+            //[HttpDelete]
+            //[Route("DeleteAppointmentsById/{id}")]
             public bool DeleteAppointmentsById(int id)
             {
                 bool a = false;

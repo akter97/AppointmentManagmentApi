@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AppointmentManagmentApi.Api
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    //[Route("api/[controller]")]
+    //[ApiController]
     public class Users : Controller
     {
         private readonly AppDbContext db;
@@ -16,15 +16,15 @@ namespace AppointmentManagmentApi.Api
             db = _db;
         }
 
-        [HttpGet]
-        [Route("GetUser")]
+        //[HttpGet]
+        //[Route("GetUser")]
         public async Task<IEnumerable<User>> GetUsers()
         {
             return await db.Users.ToListAsync();
         }
 
-        [HttpPost]
-        [Route("AddNewUser")]
+        //[HttpPost]
+        //[Route("AddNewUser")]
         public async Task<User> AddUsers(User obj)
         {
             db.Users.Add(obj);
@@ -32,8 +32,8 @@ namespace AppointmentManagmentApi.Api
             return obj;
         }
 
-        [HttpPatch]
-        [Route("UpdateUser")]
+        //[HttpPatch]
+        //[Route("UpdateUser")]
         public async Task<User> UpdateUsers(User obj)
         {
             db.Entry(obj).State = EntityState.Modified;
@@ -41,8 +41,8 @@ namespace AppointmentManagmentApi.Api
             return obj;
         }
 
-        [HttpDelete]
-        [Route("DeleteUser/{id}")]
+        //[HttpDelete]
+        //[Route("DeleteUser/{id}")]
         public bool DeleteUsers(int id)
         {
             bool a = false;
