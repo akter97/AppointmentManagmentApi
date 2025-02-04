@@ -5,24 +5,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AppointmentManagmentApi._2AppointmentRepository
 {
-  
+ 
     public class AppointmentRepository : IAppointmentRepository
     {
         private readonly AppDbContext _context;
 
-        public AppointmentRepository(AppDbContext _db)
+        public AppointmentRepository(AppDbContext context)
         {
-            _context = _db;
+            _context = context;
         }
 
         public async Task<IEnumerable<Appointment>> GetAllAsync()
         {
-            return await _context.Appointments.Include(a => a.Doctor).ToListAsync();
+            return await _context.Appointments.ToListAsync();
         }
 
         public async Task<Appointment> GetByIdAsync(int id)
         {
-            return await _context.Appointments.Include(a => a.Doctor).FirstOrDefaultAsync(a => a.Id == id);
+            return await _context.Appointments.FindAsync(id);
         }
 
         public async Task AddAsync(Appointment appointment)

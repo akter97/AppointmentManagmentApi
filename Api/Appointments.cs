@@ -15,7 +15,7 @@ namespace AppointmentManagmentApi.Api
             }
 
             [HttpGet]
-            [Route("GetAppointments")]
+            [Route("GetAppointmentsol")]
             public async Task<IEnumerable<Appointment>> GetDoctor()
             {
                 return await db.Appointments.ToListAsync();

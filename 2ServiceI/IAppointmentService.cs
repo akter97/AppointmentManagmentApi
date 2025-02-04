@@ -1,4 +1,7 @@
 ﻿using AppointmentManagmentApi.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 namespace AppointmentManagmentApi._2ServiceI
 {
 

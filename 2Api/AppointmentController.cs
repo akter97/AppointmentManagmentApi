@@ -1,12 +1,15 @@
 ﻿
 using AppointmentManagmentApi._2ServiceI;
+using AppointmentManagmentApi.DataConnection.AppointmentManagmentApi.DataConnection;
 using AppointmentManagmentApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore; 
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AppointmentManagmentApi._2Api
-{
-  
-
+{ 
+   
     [Route("api/[controller]")]
     [ApiController]
     public class AppointmentController : ControllerBase
@@ -58,4 +61,5 @@ namespace AppointmentManagmentApi._2Api
             return NoContent();
         }
     }
+
 }

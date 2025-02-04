@@ -1,5 +1,6 @@
 ﻿using AppointmentManagmentApi.Models;
-
+using System.Collections.Generic;
+using System.Threading.Tasks;
 namespace AppointmentManagmentApi._2AppointmentRepositoryI
 {
     public interface IAppointmentRepository
@@ -10,4 +11,5 @@ namespace AppointmentManagmentApi._2AppointmentRepositoryI
         Task UpdateAsync(Appointment appointment);
         Task DeleteAsync(int id);
     }
+
 }
