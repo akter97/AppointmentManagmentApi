@@ -1,11 +1,13 @@
 
+using AppointmentManagmentApi._2AppointmentRepository;
+using AppointmentManagmentApi._2AppointmentRepositoryI;
+using AppointmentManagmentApi._2Service;
+using AppointmentManagmentApi._2ServiceI;
 using AppointmentManagmentApi.DataConnection.AppointmentManagmentApi.DataConnection;
 using AppointmentManagmentApi.Repository;
 using AppointmentManagmentApi.RepositoryInterface;
 using AppointmentManagmentApi.Service;
-using AppointmentManagmentApi.ServiceInterface;
-using AppointmentManagmentApi.Services;
-using AppointmentManagmentApi.ServicesInterface;
+using AppointmentManagmentApi.ServiceInterface; 
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args); 
@@ -20,8 +22,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
-//builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
-//builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+builder.Services.AddScoped<IAppointmentService, AppointmentService>();
  
 var app = builder.Build();
 app.UseCors(policy => policy.AllowAnyHeader()
