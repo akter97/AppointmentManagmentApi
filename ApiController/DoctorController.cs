@@ -1,16 +1,18 @@
 ﻿using AppointmentManagmentApi.Queries;
 using MediatR;
-using Microsoft.AspNetCore.Mvc; 
+using Microsoft.AspNetCore.Mvc;
 
-namespace AppointmentManagmentApi.Api
+namespace AppointmentManagmentApi.ApiController
 {
+    //[Route("api/[controller]")]
+    //[ApiController]
     public class DoctorController : Controller
     {
         private IMediator _mediator;
         protected IMediator _mediatr => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
 
-        [HttpGet("GetAllDoctorList/{Id}")]
-        public async Task<IActionResult> GetAllDoctorList( int Id)
+        //[HttpGet("GetAllDoctorList/{Id}")]
+        public async Task<IActionResult> GetAllDoctorList(int Id)
         {
             try
             {
@@ -21,5 +23,7 @@ namespace AppointmentManagmentApi.Api
                 return BadRequest(ex.Message);
             }
         }
+
+
     }
 }

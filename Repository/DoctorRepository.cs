@@ -5,6 +5,7 @@ using System.Data;
 using AppointmentManagmentApi.Models;
 using AppointmentManagmentApi.DataConnection.AppointmentManagmentApi.DataConnection;
 using Microsoft.EntityFrameworkCore;
+using System.Xml;
 
 namespace AppointmentManagmentApi.Repository
 {
@@ -13,20 +14,19 @@ namespace AppointmentManagmentApi.Repository
  
 
 
-        private readonly AppDbContext _db;
+       
+        private readonly AppDbContext db;
 
-        public DoctorRepository(AppDbContext db)
+        public DoctorRepository(AppDbContext _db)
         {
-            _db = db ?? throw new ArgumentNullException(nameof(db)); // Prevents null DbContext
+            db = _db ?? throw new ArgumentNullException(nameof(_db)); 
+        }        
+
+        public async Task<List<Doctor>> AllDoctorListQuery(int Id)
+        {  
+            return await db.Doctors.Where(d => d.Id == Id).ToListAsync();
         }
 
-        
-        public async Task<List<Doctor>> AllDoctorList(int id)
-        {
-            return await _db.Doctors
-                .FromSqlRaw("EXEC Get_Doctor @Id = {0}", id)
-                .ToListAsync();
-        }
     }
 
 }
