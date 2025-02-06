@@ -2,6 +2,7 @@
 using AppointmentManagmentApi._2ServiceI;
 using AppointmentManagmentApi.DataConnection.AppointmentManagmentApi.DataConnection;
 using AppointmentManagmentApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore; 
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace AppointmentManagmentApi._2Api
    
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AppointmentController : ControllerBase
     {
         private readonly IAppointmentService _appointmentService;

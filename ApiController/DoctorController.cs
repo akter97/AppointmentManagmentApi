@@ -1,5 +1,6 @@
 ﻿using AppointmentManagmentApi.Models;
 using AppointmentManagmentApi.ServiceInterface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Numerics;
 
@@ -7,7 +8,7 @@ namespace AppointmentManagmentApi.ApiController
 {
     [Route("api/[controller]")]
     [ApiController]
-
+    [Authorize]
 
     public class DoctorController : ControllerBase
     {

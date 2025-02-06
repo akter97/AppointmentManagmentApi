@@ -1,5 +1,6 @@
 ﻿using AppointmentManagmentApi.Models;
 using AppointmentManagmentApi.ServiceInterface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -10,6 +11,7 @@ namespace AppointmentManagmentApi.ApiController
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
       
@@ -22,9 +24,9 @@ namespace AppointmentManagmentApi.ApiController
 
 
 
-    [HttpGet]
-            [Route("GetUsers")]
-            public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        [HttpGet]
+        [Route("GetUsers")] 
+        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
             {
                 try
                 {

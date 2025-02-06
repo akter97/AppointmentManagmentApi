@@ -9,69 +9,84 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using BCrypt.Net;
+using System.Security.Cryptography;
 
 namespace AppointmentManagmentApi.Api
 {
 
-     
+
 
     [Route("api/[controller]")]
     [ApiController]
     public class AuthServiceController : ControllerBase
     {
         private readonly IConfiguration _config;
+        private readonly ILogin _userService;
 
-        
-
-        public AuthServiceController(  IConfiguration config)
-        { _config = config; 
+        public AuthServiceController(IConfiguration config, ILogin userService)
+        {
+            _config = config;
+            _userService = userService;
         }
-
+        private readonly string _secretKey = "asdfghjtyujnjhdfjadfjadgf";
+         
 
         [HttpPost]
         [Route("Login")]
         public IActionResult Login([FromBody] UserLoginModel user)
         {
-            if (user.Username == "admin" && user.Password == "admin123")
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            var dbUser = _userService.GetUserByUsername(user.Username);
+            if (dbUser != null)
             {
-                var token = GenerateJwtToken(user.Username, "Admin");
-                return Ok(new { Token = token });
-            }
-            else if (user.Username == "user" && user.Password == "user123")
-            {
-                var token = GenerateJwtToken(user.Username, "User");
+                var token = GenerateJwtToken(user.Username);
                 return Ok(new { Token = token });
             }
 
             return Unauthorized("Invalid credentials");
         }
 
-        private string GenerateJwtToken(string username, string role)
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
+         
+        private string GenerateJwtToken(string username)
+        { 
+            var secretKeyBytes = Encoding.UTF8.GetBytes(_secretKey);
+             
+            if (secretKeyBytes.Length < 32)
+            { 
+                using (var sha256 = SHA256.Create())
+                {
+                    secretKeyBytes = sha256.ComputeHash(secretKeyBytes);  
+                }
+            }
+             
             var claims = new[]
             {
-            new Claim(ClaimTypes.Name, username),
-            new Claim(ClaimTypes.Role, role)
-        };
+        new Claim(JwtRegisteredClaimNames.Sub, username),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())   
+    };
+             
+            var key = new SymmetricSecurityKey(secretKeyBytes);  
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);   
 
-            var token = new JwtSecurityToken(
-                _config["Jwt:Issuer"],
-                _config["Jwt:Audience"],
-                claims,
-                expires: DateTime.UtcNow.AddHours(1),
-                signingCredentials: credentials
-            );
+            // Define the token descriptor
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.Now.AddDays(1),  
+                SigningCredentials = creds
+            };
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var tokenHandler = new JwtSecurityTokenHandler();
+             
+            var token = tokenHandler.CreateToken(tokenDescriptor); 
+            return tokenHandler.WriteToken(token);
         }
-    }
 
-    public class UserLoginModel
-    {
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public class UserLoginModel
+        {
+            public string Username { get; set; }
+            public string Password { get; set; }
+        }
     }
 }
