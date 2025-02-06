@@ -1,6 +1,10 @@
 ﻿using AppointmentManagmentApi.Models;
 using AppointmentManagmentApi.ServiceInterface;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace AppointmentManagmentApi.ApiController
 {
@@ -9,15 +13,16 @@ namespace AppointmentManagmentApi.ApiController
     public class UserController : ControllerBase
     {
       
-        
-            private readonly IUserService _userService;
+          private readonly IUserService _userService; 
 
-            public UserController(IUserService userService)
-            {
-                _userService = userService;
-            }
+    public UserController(IUserService userService )
+    {
+        _userService = userService; 
+    }
 
-            [HttpGet]
+
+
+    [HttpGet]
             [Route("GetUsers")]
             public async Task<ActionResult<IEnumerable<User>>> GetUsers()
             {
